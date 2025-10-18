@@ -59,6 +59,7 @@ vim.opt.rtp:prepend(lazypath)
 
 -- Plugins
 require("lazy").setup({
-	import = 'plugins'
+	import = 'plugins',
+	'NMAC427/guess-indent.nvim'
 })
 

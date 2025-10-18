@@ -26,7 +26,10 @@ return {
       local builtin = require("telescope.builtin")
       -- Cmd+P style "Quick Open"
       vim.keymap.set("n", "<leader>p", builtin.find_files, { desc = "Find Files" })
-    end,
+	
+    -- Search inside files (like VSCode global search / Cmd+Shift+F)
+      vim.keymap.set("n", "<leader>P", builtin.live_grep, { desc = "Search Inside Files" })
+      end,
   },
 }
 
