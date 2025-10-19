@@ -15,16 +15,16 @@ return {
       local main_term = Terminal:new({ hidden = true, direction = "horizontal" })
 
       -- Focus or open terminal
-      vim.keymap.set({ "n", "t" }, "<leader>j", function()
-        if main_term:is_open() then
-          main_term:focus()
-        else
-          main_term:open()
-        end
-      end, { desc = "Focus or open terminal" })
+      -- vim.keymap.set({ "n", "t" }, "<leader>j", function()
+      --   if main_term:is_open() then
+      --     main_term:focus()
+      --   else
+      --     main_term:open()
+      --   end
+      -- end, { desc = "Focus or open terminal" })
 
       -- Toggle terminal visibility
-      vim.keymap.set({ "n", "t" }, "<leader>J", function()
+      vim.keymap.set({ "n", "t" }, "<leader>j", function()
         main_term:toggle()
       end, { desc = "Toggle terminal" })
     end,

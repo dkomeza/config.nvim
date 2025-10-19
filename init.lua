@@ -60,7 +60,11 @@ vim.opt.rtp:prepend(lazypath)
 -- Plugins
 require("lazy").setup({
 	{ import = 'plugins' },
-	{'NMAC427/guess-indent.nvim'}, 
-	{ "catppuccin/nvim", name = "catppuccin", priority = 1000 },
+	{'NMAC427/guess-indent.nvim'},
+	{'marko-cerovac/material.nvim'},
+	-- { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
 })
+
+vim.g.material_style = "deep ocean"
+vim.cmd 'colorscheme material'
 
