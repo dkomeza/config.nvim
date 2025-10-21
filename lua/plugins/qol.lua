@@ -1,19 +1,19 @@
 return {
-  -- Autopairs: automatically close brackets, quotes, etc.
-  {
-    "windwp/nvim-autopairs",
-    config = function()
-      require("nvim-autopairs").setup({})
-    end,
-  },
-
-  -- Surround: easily manipulate surrounding brackets, quotes, tags
-  {
-    "kylechui/nvim-surround",
-    config = function()
-      require("nvim-surround").setup({})
-    end,
-  },
+  -- -- Autopairs: automatically close brackets, quotes, etc.
+  -- {
+  --   "windwp/nvim-autopairs",
+  --   config = function()
+  --     require("nvim-autopairs").setup({})
+  --   end,
+  -- },
+  --
+  -- -- Surround: easily manipulate surrounding brackets, quotes, tags
+  -- {
+  --   "kylechui/nvim-surround",
+  --   config = function()
+  --     require("nvim-surround").setup({})
+  --   end,
+  -- },
 
   -- Commenting: toggle comments easily
   {
