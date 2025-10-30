@@ -130,8 +130,7 @@ return {
 
 			local capabilities = require("blink.cmp").get_lsp_capabilities()
 
-			local lspconfig = require("lspconfig")
-			lspconfig.jdtls.setup({
+			vim.lsp.config("jdtls", {
 				cmd = {
 					vim.fn.stdpath("data") .. "/mason/bin/jdtls", -- Mason-installed jdtls
 					"-data",
