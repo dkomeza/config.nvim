@@ -18,9 +18,9 @@ vim.o.background = "dark"
 
 -- Palette (from your VS Code theme)
 local p = {
-  bg = "#0E131B",
-  bg_alt = "#111722",
-  bg_dim = "#131c2a",
+  bg = "#0a1015",
+  bg_alt = "#0d1118",
+  bg_dim = "#0e1420",
   border = "#1e293e",
 
   fg = "#c8d1df",
@@ -45,7 +45,7 @@ local p = {
   hint = "#6c8093",
 
   selection = "#2a3b5a",
-  cursorline = "#131c2a",
+  cursorline = "#0e1420",
   word_bg = "#484e5b",
 }
 

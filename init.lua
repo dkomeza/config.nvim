@@ -81,6 +81,12 @@ require("lazy").setup({
 require("config.autosave")
 require("config.movement")
 
+-- Catppuccin
 -- vim.cmd.colorscheme "catppuccin-mocha"
-vim.g.material_style = "deep ocean"
-vim.cmd("colorscheme material")
+
+-- Material
+-- vim.g.material_style = "deep ocean"
+-- vim.cmd("colorscheme material")
+
+-- After Dark
+vim.cmd("colorscheme after-dark")
