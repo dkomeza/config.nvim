@@ -25,14 +25,14 @@ return {
 						vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
 					end
 
-					-- map('gra', vim.lsp.buf.code_action, '[G]oto Code [A]ction', { 'n', 'x' })
-					-- map('grr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
-					-- map('gri', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
-					-- map('grd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
-					-- map('grD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
-					-- map('gO', require('telescope.builtin').lsp_document_symbols, 'Open Document Symbols')
-					-- map('gW', require('telescope.builtin').lsp_dynamic_workspace_symbols, 'Open Workspace Symbols')
-					-- map('grt', require('telescope.builtin').lsp_type_definitions, '[G]oto [T]ype Definition')
+					map("gra", vim.lsp.buf.code_action, "[G]oto Code [A]ction", { "n", "x" })
+					map("grr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
+					map("gri", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
+					map("grd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
+					map("grD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
+					map("gO", require("telescope.builtin").lsp_document_symbols, "Open Document Symbols")
+					map("gW", require("telescope.builtin").lsp_dynamic_workspace_symbols, "Open Workspace Symbols")
+					map("grt", require("telescope.builtin").lsp_type_definitions, "[G]oto [T]ype Definition")
 
 					-- This function resolves a difference between neovim nightly (version 0.11) and stable (version 0.10)
 					---@param client vim.lsp.Client
@@ -129,6 +129,18 @@ return {
 			})
 
 			local capabilities = require("blink.cmp").get_lsp_capabilities()
+
+			local lspconfig = require("lspconfig")
+			lspconfig.jdtls.setup({
+				cmd = {
+					vim.fn.stdpath("data") .. "/mason/bin/jdtls", -- Mason-installed jdtls
+					"-data",
+					vim.fn.stdpath("data") .. "/site/java-workspace/" .. vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t"),
+				},
+				root_dir = require("lspconfig.util").root_pattern("gradlew", "build.gradle", "settings.gradle", ".git")(),
+				capabilities = capabilities,
+			})
+
 			local servers = {}
 
 			-- Ensure the servers and tools above are installed
@@ -304,6 +316,23 @@ return {
 
 			-- Shows a signature help window while you type arguments for a function
 			signature = { enabled = true },
+		},
+	},
+
+	{ -- QOL --
+		"nvimdev/lspsaga.nvim",
+		config = function()
+			require("lspsaga").setup({
+				lightbulb = {
+					enable = false,
+				},
+			})
+
+			vim.keymap.set("n", "K", "<cmd>Lspsaga hover_doc<CR>", { desc = "LSP Hover" })
+		end,
+		dependencies = {
+			"nvim-treesitter/nvim-treesitter", -- optional
+			"nvim-tree/nvim-web-devicons", -- optional
 		},
 	},
 }

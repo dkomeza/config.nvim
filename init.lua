@@ -76,10 +76,11 @@ require("lazy").setup({
 	},
 	{ "marko-cerovac/material.nvim" },
 	{ "ThePrimeagen/vim-be-good" },
-	-- { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
+	{ "catppuccin/nvim", name = "catppuccin", priority = 1000 },
 })
 require("config.autosave")
 require("config.movement")
 
+-- vim.cmd.colorscheme "catppuccin-mocha"
 vim.g.material_style = "deep ocean"
 vim.cmd("colorscheme material")
