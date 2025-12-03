@@ -25,7 +25,7 @@ return {
 						vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
 					end
 
-					map("gra", vim.lsp.buf.code_action, "[G]oto Code [A]ction", { "n", "x" })
+					-- map("gra", vim.lsp.buf.code_action, "[G]oto Code [A]ction", { "n", "x" })
 					map("grr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
 					map("gri", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
 					map("grd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
@@ -140,21 +140,23 @@ return {
 				capabilities = capabilities,
 			})
 
+			vim.lsp.config("tailwindcss", {
+				settings = {
+					tailwindCSS = {
+						experimental = {
+							classRegex = {
+								-- Enable support for class names in plain HTML or JSX-like syntax
+								{ "class\\s*[:=]\\s*[\"'`]([^\"'`]*)[\"'`]", { 1 } },
+							},
+						},
+						validate = true,
+					},
+				},
+				filetypes = { "html", "javascript", "typescript", "javascriptreact", "typescriptreact", "vue" },
+			})
+
 			local servers = {}
 
-			-- Ensure the servers and tools above are installed
-			--
-			-- To check the current status of installed tools and/or manually install
-			-- other tools, you can run
-			--    :Mason
-			--
-			-- You can press `g?` for help in this menu.
-			--
-			-- `mason` had to be setup earlier: to configure its options see the
-			-- `dependencies` table for `nvim-lspconfig` above.
-			--
-			-- You can add other tools here that you want Mason to install
-			-- for you, so that they are available from within Neovim.
 			local ensure_installed = vim.tbl_keys(servers or {})
 			vim.list_extend(ensure_installed, {
 				"stylua", -- Used to format Lua code
@@ -251,6 +253,7 @@ return {
 				opts = {},
 			},
 			"folke/lazydev.nvim",
+			"fang2hou/blink-copilot",
 		},
 		--- @module 'blink.cmp'
 		--- @type blink.cmp.Config
@@ -281,6 +284,10 @@ return {
 
 				-- For more advanced Luasnip keymaps (e.g. selecting choice nodes, expansion) see:
 				--    https://github.com/L3MON4D3/LuaSnip?tab=readme-ov-file#keymaps
+				["<Tab>"] = {
+					"accept",
+					"fallback",
+				},
 			},
 
 			appearance = {
@@ -296,9 +303,15 @@ return {
 			},
 
 			sources = {
-				default = { "lsp", "path", "snippets", "lazydev" },
+				default = { "lsp", "path", "snippets", "lazydev", "copilot" },
 				providers = {
 					lazydev = { module = "lazydev.integrations.blink", score_offset = 100 },
+					copilot = {
+						name = "copilot",
+						module = "blink-copilot",
+						score_offset = 100,
+						async = true,
+					},
 				},
 			},
 
@@ -325,9 +338,42 @@ return {
 				lightbulb = {
 					enable = false,
 				},
+				diagnostic = {
+					show_code_action = false,
+					show_source = true,
+					jump_num_shortcut = true,
+					max_width = 0.8,
+					max_height = 0.6,
+					border_follow = true,
+					extend_relatedInformation = true,
+				},
+				ui = {
+					border = "rounded",
+				},
 			})
 
+			-- Show only signs + underline, not inline text
+			-- vim.diagnostic.config({
+			-- 	virtual_text = true,
+			-- 	signs = true,
+			-- 	underline = true,
+			-- 	update_in_insert = false,
+			-- 	severity_sort = true,
+			-- })
+
+			-- Hover documentation
 			vim.keymap.set("n", "K", "<cmd>Lspsaga hover_doc<CR>", { desc = "LSP Hover" })
+			vim.keymap.set("n", "gca", "<cmd>Lspsaga code_action<CR>", { desc = "LSP Code Action" })
+
+			-- Automatically show diagnostics in a floating window when hovering
+			vim.api.nvim_create_autocmd("CursorHold", {
+				callback = function()
+					vim.cmd("Lspsaga show_cursor_diagnostics ++unfocus")
+				end,
+			})
+
+			-- Optional: make popups appear faster
+			vim.o.updatetime = 500
 		end,
 		dependencies = {
 			"nvim-treesitter/nvim-treesitter", -- optional

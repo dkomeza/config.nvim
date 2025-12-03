@@ -19,6 +19,17 @@ vim.opt.shiftwidth = 4
 vim.opt.softtabstop = 4
 vim.opt.expandtab = true
 
+-- line warping
+vim.opt.wrap = false
+vim.opt.linebreak = false
+vim.opt.breakindent = false
+vim.opt.showbreak = ""
+vim.opt.breakat = ""
+
+-- Make scrolling behave properly with long lines
+vim.opt.sidescroll = 5
+vim.opt.sidescrolloff = 15
+
 -- window keymap
 vim.keymap.set("n", "<leader>h", "<C-w><C-h>", { desc = "Move focus to the left window" })
 vim.keymap.set("n", "<leader>l", "<C-w><C-l>", { desc = "Move focus to the right window" })
@@ -89,4 +100,12 @@ require("config.movement")
 -- vim.cmd("colorscheme material")
 
 -- After Dark
-vim.cmd("colorscheme after-dark")
+vim.cmd("colorscheme afterdark")
+
+-- Force no-wrap *globally*, overriding all filetype plugins
+vim.api.nvim_create_autocmd({ "BufEnter", "FileType", "WinEnter" }, {
+  callback = function()
+    vim.wo.wrap = false
+    vim.wo.linebreak = false
+  end,
+})
